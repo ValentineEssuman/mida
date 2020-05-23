@@ -28,7 +28,16 @@ mqtt_client.on("connect", function () {
 
 //   mqtt_client.on("connect", function () {
 
-
+const deviceData = {
+    table: 'data_logs',
+    tags:{location: 'ppa' },
+    data:{
+        v1:Math.random()*10,
+        i1:Math.random()*5,
+        id: Math.floor(Math.random()*100)
+         },
+    //ts:1255574545 automatically generated
+   }
 mqtt_client.on("message", function (topic, message) {
   // message is Buffer
   console.log(topic)
@@ -43,17 +52,9 @@ mqtt_client.on("message", function (topic, message) {
     //   console.log(typeof message);
     influxAgent.writeData([
       {
-        measurement: 'data_logs',
-        fields: { 
-          cubicle_id: 1,
-          kwh: Math.random()*500,
-          v1: 3,
-          v2:6,
-          location: 'ppa'
-        },
-        tags: {
-            datalogs:'datalog'
-        }
+         measurement: deviceData['table'],
+        fields: deviceData['data'],
+        tags:deviceData['tags']
       }
   
     ])
